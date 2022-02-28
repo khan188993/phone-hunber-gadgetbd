@@ -141,16 +141,16 @@ const displaySearchResult = (result,searchInputData) =>{
             let allPhones = "";
             //looping less than 20 items 
             for(let i=0; i<phonesResults.length; i++){
-                // console.log('no',i,'name',phonesResults[i].phone_name,'brand',phonesResults[i].brand);
+                
                 allPhones = `${allPhones}
-                <div class="col-lg-4 col-md-2 col-1">
+                <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-product">
                         <div class="product-img">
                             <span>${phonesResults[i].brand}</span>
                             <img src="${phonesResults[i].image}" alt="">
                         </div>
                         <h2>${phonesResults[i].phone_name}</h2>
-                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details ${phonesResults[i].slug}</button>
+                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details</button>
                     </div>
                 </div>
                 `;
