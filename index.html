@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="search-input-box">
-                        <input type="text" placeholder="find your mobile phone">
+                        <input id="search-input" type="text" placeholder="find your mobile phone">
                         <button id="search"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
@@ -36,20 +36,39 @@
             </div>
         </div>
     </header>
-
+    
     <section class="product-details-show">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-5">
+            <div class="row" id="product-details-selector">
+                <!-- <div class="col-lg-5">
                     <div class="product-details-image">
                         <img src="./image.png" alt="">
                     </div>
-                </div>
-                <div class="col-lg-7">
+                </div> -->
+                <!-- <div class="col-lg-7">
                     <div class="product-details-content">
-                        <h1>Zenblaze Neo 2 samsung</h1>
+                        <h1>Phone Details : </h1>
+                        <div class="details-box">
+                            <ul>
+                                <li><span>Name</span> : Phone 13 Pro Max</li>
+                                <li><span>releaseDate</span> : Released 2021, September 24</li>
+                                <li><span>brand</span> : Apple</li>
+                                <h3 class="details-title">Main Feature:</h3>
+                                <li><span>storage</span> : 128GB/256GB/1TB storage, no card slot</li>
+                                <li><span>displaySize</span> : 6.7 inches, 109.8 cm2 (~87.4% screen-to-body ratio)</li>
+                                <li><span>memory</span> : 128GB 6GB RAM, 256GB 6GB RAM, 512GB 6GB RAM, 1TB 6GB RAM</li>
+                                <li><span>sensors</span> : FaceId,FaceId,FaceId,FaceId,FaceId,FaceId</li>
+                                <h3 class="details-title">Other:</h3>
+                                <li><span>WLAN</span> : Wi-Fi 802.11 a/b/g/n/ac/6, dual-band, hotspot</li>
+                                <li><span>Bluetooth</span> : 5.0, A2DP, LE</li>
+                                <li><span>GPS</span> : Yes, with A-GPS, GLONASS, GALILEO, BDS, QZSS</li>
+                                <li><span>NFC</span> :Yes </li>
+                                <li><span>Radio</span> : No</li>
+                                <li><span>USB</span> : Yes</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -57,7 +76,7 @@
     <!-- Phone Result Section -->
     <section class="search-result">
         <div class="container">
-            <div class="row">
+            <div class="row" id="display-result-selector">
                 <div class="col-lg-4 col-md-2 col-1">
                     <div class="single-product">
                         <div class="product-img">
