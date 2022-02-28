@@ -90,3 +90,51 @@ section{
     font-size: 23px;
     margin: 15px 0;
   }
+
+  #spinner{
+    display: none;
+  }
+
+  .delete-margin{
+    margin:-15px 0;
+  }
+  .col-lg-4{
+    margin:15px 0;
+  }
+
+
+  @media (max-width:930px) {
+    .logo {
+      width: 130px;
+    }
+    .search-input-box button {
+      padding: 10px 10px;
+    }
+    .search-input-box input {
+      padding: 10px 14px;
+    }
+  }
+
+  @media (max-width:770px) {
+    .logo {
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+    header {
+      text-align: center;
+    }
+  }
+
+
+  @media (max-width:520px) {
+    .logo {
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+    header {
+      text-align: center;
+    }
+    .search-input-box input {
+      width: 81%;
+    }
+  }

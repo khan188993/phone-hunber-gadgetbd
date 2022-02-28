@@ -1,31 +1,31 @@
-// https://openapi.programming-hero.com/api/phones = full api
-// https://openapi.programming-hero.com/api/phones?search=apple
-// search can be found from this : Samsung,apple,Huawei,Oppo
-// search by details 
-// https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-11089 
-// slug search 
-
 // Selecting all element by dom 
 const searchBtn = document.getElementById('search');
 const searchInput = document.getElementById('search-input');
 const detailsBtn = document.getElementById('details');
-const loadMoreBtn = document.getElementById('load-more');
+// const loadMoreBtn = document.getElementById('load-more');
 const displayResultSelector = document.getElementById('display-result-selector');
 const productDetailsSelector = document.getElementById('product-details-selector');
 const searchResultText = document.querySelector('.search-result-text');
+const spinner = document.getElementById('spinner');
 
+//Loading Spinner Show/hide  On loading data 
+const loading = (value) =>{
+    spinner.style.display = value;
+}
 
+//function for searchProduct
 const searchProduct = () =>{
-
+    
     //collecting search input value
-    let searchInputData = searchInput.value;
+    let searchInputData = searchInput.value.toLowerCase();
+    console.log(searchInputData);
     searchInput.value = "";
     displayResultSelector.innerHTML = "";
     productDetailsSelector.innerHTML = "";
     
     //input empty check
     if(searchInputData ===""){
-        console.log('please the input properly');
+        searchResult('Please Fill the input properly!')
     }else{
 
         //Fetching Search Result 
@@ -33,18 +33,19 @@ const searchProduct = () =>{
         .then(res =>res.json())
         .then(result => displaySearchResult(result,searchInputData))
         
-
         //If Search Data not found then error messages,
-        .catch(err=>searchResult("","something may be wrong! please try later!"))
+        .catch(err=>searchResult("something may be wrong! please try later!"))
     }
 }
 
-const searchResult = (searchInputData,text)=>{
+//Search Result Text Info showing under search box
+const searchResult = (text,searchInputData="")=>{
         searchResultText.innerHTML = `
         <span id="search-result-text"> ${text} <span class="search-text">${searchInputData}</span></span>
         `
 }
 
+//load product details by uniq slug;
 const loadProductDetails = (slug) =>{
     productDetailsSelector.innerHTML = "";
     // console.log('load product details',slug);
@@ -52,21 +53,25 @@ const loadProductDetails = (slug) =>{
     .then(res => res.json())
     .then(result =>displayProductDetails(result))
 
-    .catch(err => searchResult("","something may be wrong! please try later!"))
+    .catch(err => searchResult("something may be wrong! please try later!"))
 }
 
+//display product details by clicking details button
 const displayProductDetails = (result) =>{
+
+    //show loading
+    loading('block');
     console.log(result.data.brand); 
     const phone = result.data;
     productDetailsSelector.innerHTML = `
-    <div class="col-lg-5">
+    <div class="col-lg-4">
                     <div class="product-details-image">
                         <img src="${phone.image}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <div class="product-details-content">
-                        <h1>Phone Details : </h1>
+                        <h1>Product Details : </h1>
                         <div class="details-box">
                             <ul>
                                 <li><span>Name</span> : ${phone.name}</li>
@@ -90,39 +95,49 @@ const displayProductDetails = (result) =>{
                     </div>
                 </div>
     `
+    //hide loading
+    loading('none');
 
 }
 
-
+//display search result by clicking search button
 const displaySearchResult = (result,searchInputData) =>{
     let phonesResults = result.data;
 
     //If data found then execute 
     if(phonesResults.length>0){
 
+        
         //search field value show 
-        searchResult(searchInputData,"Your Search For : ");
+        searchResult("Your Search For : ",searchInputData);
         //phones result show maximum 20 if result get 20+ number
         if(phonesResults.length>20){
-            let allPhones = "";
 
+            //Loading Spinner Show
+            loading('block');
+            let allPhones = "";
             //looping 20 items for getting greater than 20 items
             for(let i=0; i<20; i++){
                 allPhones = `${allPhones}
-                <div class="col-lg-4 col-md-2 col-1">
+                <div class="col-lg-4 col-md-6 col-12">
                     <div class="single-product">
                         <div class="product-img">
                             <span>${phonesResults[i].brand}</span>
                             <img src="${phonesResults[i].image}" alt="">
                         </div>
                         <h2>${phonesResults[i].phone_name}</h2>
-                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details ${phonesResults[i].slug}</button>
+                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details</button>
                     </div>
                 </div>
                 `;
             }
             displayResultSelector.innerHTML = allPhones;
+            // Loading Spinner none 
+            loading('none');
         }else{
+
+            //Loading Spinner Show
+            loading('block');
             let allPhones = "";
             //looping less than 20 items 
             for(let i=0; i<phonesResults.length; i++){
@@ -141,12 +156,14 @@ const displaySearchResult = (result,searchInputData) =>{
                 `;
             }
             displayResultSelector.innerHTML = allPhones;
+            // Loading Spinner none 
+            loading('none');
         }
         
 
     }else{
-        //no data found text show with input search field value
-        searchResult(searchInputData,'No Phone Found For Your Search : ');
+        //if no data found text show with input search field value
+        searchResult('No Phone Found For Your Search : ',searchInputData);
     }
     
 }
