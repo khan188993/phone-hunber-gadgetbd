@@ -163,7 +163,7 @@ const displaySearchResult = (result,searchInputData) =>{
 
     }else{
         //if no data found text show with input search field value
-        searchResult('No Phone Found For Your Search : ',searchInputData);
+        searchResult('No Product Found For Your Search : ',searchInputData);
     }
     
 }
