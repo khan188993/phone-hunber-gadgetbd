@@ -71,7 +71,7 @@ section{
     border-radius: 28px 0px 30px 0;
   }
   .single-product h2 {
-    font-size: 27px;
+    font-size: 20px;
     text-align: center;
     background: orange;
     color: white;
@@ -90,14 +90,16 @@ section{
     margin: 15px 0;
   }
 
-  #spinner{
-    display: none;
-  }
+  
 
+  #spinner{
+    padding-left: 26%;
+    margin-top: 3px;
+  }
   .delete-margin{
     margin:-15px 0;
   }
-  .col-lg-4{
+  .col-lg-3{
     margin:15px 0;
   }
 
@@ -109,15 +111,28 @@ section{
   display: inline-block;
 }
 .single-product {
-  box-shadow: 0px 0px 10px black;
-  padding: 50px 0 30px;
+  box-shadow: 0px 0px 8px 1px #00000063;
+  padding: 50px 0px 0px;
   text-align: center;
+  min-height: 503px;
 }
 
 #details {
   margin-top: 24px;
   padding: 8px 35px;
 }
+
+  @media (max-width:14000px) {
+    .container{
+      max-width: 1270px;
+    }
+  }
+
+  @media (max-width:1250px) {
+    .container{
+      max-width: 1140px;
+    }
+  }
 
   @media (max-width:960px) {
     .logo {
@@ -148,6 +163,10 @@ section{
     header {
       text-align: center;
     }
+    #spinner {
+      padding-left: 0%;
+      margin-top: 21px;
+    }
   }
 
 
@@ -167,5 +186,8 @@ section{
     }
     section {
       padding: 10px 0;
+    }
+    .search-result-text {
+      margin-bottom: 15px;
     }
   }

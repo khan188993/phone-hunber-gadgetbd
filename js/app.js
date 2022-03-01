@@ -8,30 +8,30 @@ const productDetailsSelector = document.getElementById('product-details-selector
 const searchResultText = document.querySelector('.search-result-text');
 const spinner = document.getElementById('spinner');
 
+//Load More Product Initial Array 
 let loadMoreProducts = [];
 
 //Load more button Initial value 
 loadMoreBtnDisplay('none');
+//Load more snipper Initial value 
+loading('none');
 
 
-//Load more button displaying 
+//Load more button displaying function
 function loadMoreBtnDisplay (style){
     loadMoreBtn.style.display = style;
 }
 
 //Loading Spinner Show/hide  On loading data 
-const loading = (value) =>{
-    if(value == 'none'){
-        console.log('none loading');
-    }else{
-        console.log('show loading');
-    }
+function loading (value) {
     spinner.style.display = value;
 }
 
 //function for searchProduct
 const searchProduct = () =>{
     
+    //Loading Spinner Show On loading data 
+    loading('block');
     //collecting search input value
     let searchInputData = searchInput.value.toLowerCase();
     searchInput.value = "";
@@ -40,10 +40,13 @@ const searchProduct = () =>{
     
     //input empty check
     if(searchInputData ===""){
-        searchResult('Please Fill The Search Field properly!')
+        searchResult('Please Fill The Search Field Properly!')
 
         //load more om empty search 
         loadMoreBtnDisplay('none')
+        //Loading spinner  hide on search empty
+        loading('none');
+
     }else{
 
         //Fetching Search Result 
@@ -55,6 +58,9 @@ const searchProduct = () =>{
         .catch(err=>{
             //load more button none on  getting errors on search
             loadMoreBtnDisplay('none')
+            //If found any error then spinner hide
+            loading('none');
+
             searchResult("something may be wrong! please try later!")
         })
     }
@@ -131,7 +137,7 @@ const displaySearchResult = (result,searchInputData) =>{
 
         
         //search field value show 
-        searchResult("Your Search For : ",searchInputData);
+        searchResult("You Search For : ",searchInputData);
         //phones result show maximum 20 if result get 20+ number
 
         if(phonesResults.length>20){
@@ -142,14 +148,13 @@ const displaySearchResult = (result,searchInputData) =>{
             //load more button show if product length greater than 20
             loadMoreBtnDisplay('inline-block')
             
-            //Loading Spinner Show
-            loading('block');
+            
 
             let allPhones = "";
             //looping 20 items for getting greater than 20 items
             for(let i=0; i<phonesResults.length; i++){
                 allPhones = `${allPhones}
-                <div class="col-lg-4 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12">
                     <div class="single-product">
                         <div class="product-img">
                             <span>${phonesResults[i].brand}</span>
@@ -162,7 +167,8 @@ const displaySearchResult = (result,searchInputData) =>{
                 `;
             }
             displayResultSelector.innerHTML = allPhones;
-            // Loading Spinner none 
+
+            // Loading Spinner none after showing all fetch data 
             loading('none');
         }else{
 
@@ -172,14 +178,12 @@ const displaySearchResult = (result,searchInputData) =>{
             //load more button none if product length less than 20
             loadMoreBtnDisplay('none')
 
-            //Loading Spinner Show
-            loading('block');
             let allPhones = "";
             //looping less than 20 items 
             for(let i=0; i<phonesResults.length; i++){
                 
                 allPhones = `${allPhones}
-                <div class="col-lg-4 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12">
                     <div class="single-product">
                         <div class="product-img">
                             <span>${phonesResults[i].brand}</span>
@@ -200,33 +204,49 @@ const displaySearchResult = (result,searchInputData) =>{
     }else{
         //if no data found text show with input search field value
         searchResult('No Product Found For Your Search : ',searchInputData);
+        //hide load more button if no product found 
+        loadMoreBtnDisplay('none')
+        //If search result not found then spinner hide
+        loading('none');
+        
+        
     }
     
 }
 
 const loadMoreProductsShow = ()=>{
-    let allLoadMoreProducts = "";
-    //looping load more product items
-    for(let i=20; i<loadMoreProducts.length; i++){
-        allLoadMoreProducts = `${allLoadMoreProducts}
-        <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-product">
-                <div class="product-img">
-                    <span>${loadMoreProducts[i].brand}</span>
-                    <img src="${loadMoreProducts[i].image}" alt="">
+
+    //Load more product slice 20 for showing next 20 loading product only,
+    loadMoreProductSplice = loadMoreProducts.splice(0,20);
+
+    if(loadMoreProductSplice.length>0){
+
+        let allLoadMoreProducts = "";
+        //looping load more product items
+        for(let i=0; i<loadMoreProductSplice.length; i++){
+            allLoadMoreProducts = `${allLoadMoreProducts}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="single-product">
+                    <div class="product-img">
+                        <span>${loadMoreProductSplice[i].brand}</span>
+                        <img src="${loadMoreProductSplice[i].image}" alt="">
+                    </div>
+                    <h2>${loadMoreProductSplice[i].phone_name}</h2>
+                    <button onclick="loadProductDetails('${loadMoreProductSplice[i].slug}')" id="details" class="btn btn-danger">Details</button>
                 </div>
-                <h2>${loadMoreProducts[i].phone_name}</h2>
-                <button onclick="loadProductDetails('${loadMoreProducts[i].slug}')" id="details" class="btn btn-danger">Details</button>
             </div>
-        </div>
-        `;
+            `;
+        }
+    
+         //load more products adding with last 20 products
+        displayResultSelector.innerHTML = `${displayResultSelector.innerHTML} ${allLoadMoreProducts}`;
+
+        //load more button hide if all product load fully
+        if(loadMoreProducts.length===0){
+            loadMoreBtnDisplay('none');
+        }    
     }
 
-     //load more products adding with last 20 products
-    displayResultSelector.innerHTML = `${displayResultSelector.innerHTML} ${allLoadMoreProducts}`;
-
-    //load more button nono after click
-    loadMoreBtnDisplay('none');
 }
 
 
