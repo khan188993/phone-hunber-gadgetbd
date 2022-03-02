@@ -67,7 +67,7 @@ const searchProduct = () =>{
 }
 
 //Search Result Text Info showing under search box
-const searchResult = (text,searchInputData="")=>{
+const searchResult = (text="",searchInputData="")=>{
         searchResultText.innerHTML = `
         <span id="search-result-text"> ${text} <span class="search-text">${searchInputData}</span></span>
         `
@@ -75,13 +75,17 @@ const searchResult = (text,searchInputData="")=>{
 
 //load product details by uniq slug;
 const loadProductDetails = (slug) =>{
-
+    searchResult("",);
+    
     productDetailsSelector.innerHTML = "";
     fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
     .then(res => res.json())
     .then(result =>displayProductDetails(result))
 
-    .catch(err => searchResult("something may be wrong! please try later!"))
+    .catch(err => {
+        loading('none');
+        searchResult("something may be wrong! please try later!")
+    })
 }
 
 //display product details by clicking details button
@@ -102,22 +106,22 @@ const displayProductDetails = (result) =>{
                         <h1>Product Details : </h1>
                         <div class="details-box">
                             <ul>
-                                <li><span>Name</span> : ${phone.name}</li>
-                                <li><span>releaseDate</span> : ${phone.releaseDate ? phone.releaseDate : "no releaseDate found" }</li>
-                                <li><span>brand</span> : ${phone.brand}</li>
+                                <li><span>Name</span> : ${phone?.name || ""}</li>
+                                <li><span>releaseDate</span> : ${phone?.releaseDate || "no releaseDate found" }</li>
+                                <li><span>brand</span> : ${phone?.brand || ""}</li>
                                 <h3 class="details-title">Main Feature:</h3>
-                                <li><span>storage</span> : ${phone.mainFeatures.storage}</li>
-                                <li><span>displaySize</span> : ${phone.mainFeatures.displaySize}</li>
-                                <li><span>memory</span> : ${phone.mainFeatures.chipSet}</li>
-                                <li><span>chipSet</span> : ${phone.mainFeatures.memory}</li>
-                                <li><span>sensors</span> : ${phone.mainFeatures.sensors.join(" | ")}</li>
+                                <li><span>storage</span> : ${phone?.mainFeatures?.storage || "Not Available"}</li>
+                                <li><span>displaySize</span> : ${phone?.mainFeatures?.displaySize} || "Not Available"</li>
+                                <li><span>memory</span> : ${phone?.mainFeatures?.chipSet || "Not Available"}</li>
+                                <li><span>chipSet</span> : ${phone?.mainFeatures?.memory || "Not Available"}</li>
+                                <li><span>sensors</span> : ${phone?.mainFeatures?.sensors.join(" | ") || "Not Available"}</li>
                                 <h3 class="details-title">Other:</h3>
-                                <li><span>WLAN</span> : ${phone.others.WLAN}</li>
-                                <li><span>Bluetooth</span> : ${phone.others.Bluetooth}</li>
-                                <li><span>GPS</span> : ${phone.others.GPS}</li>
-                                <li><span>NFC</span> : ${phone.others.NFC}</li>
-                                <li><span>Radio</span> : ${phone.others.Radio}</li>
-                                <li><span>USB</span> :  ${phone.others.USB}</li>
+                                <li><span>WLAN</span> : ${phone?.others?.WLAN || "Not Available"}</li>
+                                <li><span>Bluetooth</span> : ${phone?.others?.Bluetooth || "Not Available"}</li>
+                                <li><span>GPS</span> : ${phone?.others?.GPS || "Not Available"}</li>
+                                <li><span>NFC</span> : ${phone?.others?.NFC || "Not Available"}</li>
+                                <li><span>Radio</span> : ${phone?.others?.Radio || "Not Available"}</li>
+                                <li><span>USB</span> :  ${phone?.others?.USB || "Not Available"}</li>
                             </ul>
                         </div>
                     </div>
